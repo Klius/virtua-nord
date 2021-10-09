@@ -19,6 +19,11 @@ export var max_climb_angle = .6
 export var angle_of_freedom = 80
 export var boost_accumulation_speed = 1
 export var max_boost_multiplier = 2
+export (NodePath) var joystickLeftPath
+onready var joystickLeft : Joystick = get_node(joystickLeftPath)
+
+export (NodePath) var joystickRightPath
+onready var joystickRight : Joystick = get_node(joystickRightPath)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -67,12 +72,15 @@ func _process_input(delta):
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	#Look with joystick
 	var movement = Vector2()
-	var xAxisRL = Input.get_joy_axis(0, JOY_AXIS_2)
-	var yAxisUD = Input.get_joy_axis(0 ,JOY_AXIS_3)
-	if abs(xAxisRL) > deadzone :
-		movement.x = xAxisRL
-	if abs(yAxisUD) > deadzone:
-		movement.y = yAxisUD
+	if OS.has_touchscreen_ui_hint():
+		movement = joystickRight.output
+	else:
+		var xAxisRL = Input.get_joy_axis(0, JOY_AXIS_2)
+		var yAxisUD = Input.get_joy_axis(0 ,JOY_AXIS_3)
+		if abs(xAxisRL) > deadzone :
+			movement.x = xAxisRL
+		if abs(yAxisUD) > deadzone:
+			movement.y = yAxisUD
 	self.rotation.y += deg2rad(movement.x * joy_y_sens * -1)
 	$UpperCollider/Camera.rotate_x(deg2rad(movement.y * joy_x_sens * -1))
 	var camera_rot = $UpperCollider/Camera.rotation_degrees
@@ -101,7 +109,10 @@ func _process_input(delta):
 		inbetween = true
 	
 	# WASD
-	input_dir = Vector3(Input.get_action_strength("move_right") - Input.get_action_strength("move_left"), 
+	if OS.has_touchscreen_ui_hint():
+		input_dir  = Vector3(joystickLeft.output.x,0,joystickLeft.output.y)
+	else:
+		input_dir = Vector3(Input.get_action_strength("move_right") - Input.get_action_strength("move_left"), 
 			0,
 			Input.get_action_strength("move_backwards") - Input.get_action_strength("move_forwards")).normalized()
 
@@ -215,3 +226,7 @@ func _update_hud():
 	
 	$HUD/Crosshair.material.set_shader_param("spread", velocity.length()/4 + 1)
 		
+
+
+func _on_Button_pressed():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
