@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/bocanord-0.5.glb-63e164a49e671359eff6222702f86cfa.scn"
+path="res://.import/bocanord.glb-7643b22bdc949fd0827ef39ae16b1c11.scn"
 
 [deps]
 
-source_file="res://assets/bocanord/bocanord-0.5.glb"
-dest_files=[ "res://.import/bocanord-0.5.glb-63e164a49e671359eff6222702f86cfa.scn" ]
+source_file="res://assets/bocanord/bocanord.glb"
+dest_files=[ "res://.import/bocanord.glb-7643b22bdc949fd0827ef39ae16b1c11.scn" ]
 
 [params]
 
