@@ -47,16 +47,34 @@ __meta__ = {
 }
 
 [node name="Button" type="Button" parent="Control"]
-margin_right = 12.0
+margin_right = 113.0
 margin_bottom = 20.0
+rect_pivot_offset = Vector2( -186.595, 167.206 )
 text = "Capturar mouse"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button2" type="Button" parent="Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -113.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( -186.595, 167.206 )
+text = "Reset"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="JoystickL" parent="Control" instance=ExtResource( 2 )]
+visibility_mode = 1
 
 [node name="JoystickR" parent="Control" instance=ExtResource( 2 )]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -300.0
 margin_right = 0.0
+visibility_mode = 1
 
 [connection signal="pressed" from="Control/Button" to="3dCC" method="_on_Button_pressed"]
+[connection signal="pressed" from="Control/Button2" to="3dCC" method="_on_respawn_pressed"]

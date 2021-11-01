@@ -227,6 +227,12 @@ func _update_hud():
 	$HUD/Crosshair.material.set_shader_param("spread", velocity.length()/4 + 1)
 		
 
-
+func respawn(new_location):
+	transform.origin=new_location
+	
 func _on_Button_pressed():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+func _on_respawn_pressed():
+	self.respawn(Vector3(0,1,0))
