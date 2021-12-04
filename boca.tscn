@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://assets/bocanord/bocanord-05.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Joystick/Joystick.tscn" type="PackedScene" id=2]
 [ext_resource path="res://3dCC.tscn" type="PackedScene" id=3]
+[ext_resource path="res://FONTS/ARIAL.TTF" type="DynamicFontData" id=4]
+[ext_resource path="res://boca.gd" type="Script" id=5]
 
 [sub_resource type="ProceduralSky" id=1]
 
@@ -15,10 +17,18 @@ ambient_light_sky_contribution = 0.0
 
 [sub_resource type="NavigationMesh" id=3]
 
+[sub_resource type="DynamicFont" id=4]
+size = 27
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 4 )
+
 [node name="World" type="Spatial"]
+script = ExtResource( 5 )
 
 [node name="3dCC" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.01669, 0 )
+transform = Transform( 0.60646, 0, -0.795114, 0, 1, 0, 0.795114, 0, 0.60646, -1.37378, 3.24939, 0.352325 )
 move_speed = 5
 joystickLeftPath = NodePath("../Control/JoystickL")
 joystickRightPath = NodePath("../Control/JoystickR")
@@ -46,14 +56,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="Control"]
-margin_right = 113.0
-margin_bottom = 20.0
-rect_pivot_offset = Vector2( -186.595, 167.206 )
-text = "Capturar mouse"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="JoystickL" parent="Control" instance=ExtResource( 2 )]
+visibility_mode = 1
+
+[node name="JoystickR" parent="Control" instance=ExtResource( 2 )]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -300.0
+margin_right = 0.0
+visibility_mode = 1
 
 [node name="Button2" type="Button" parent="Control"]
 anchor_left = 1.0
@@ -66,15 +77,72 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="JoystickL" parent="Control" instance=ExtResource( 2 )]
-visibility_mode = 1
+[node name="Button" type="Button" parent="Control"]
+margin_right = 12.0
+margin_bottom = 20.0
+text = "Capturar Mouse"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="JoystickR" parent="Control" instance=ExtResource( 2 )]
-anchor_left = 1.0
+[node name="introcontrol" type="Control" parent="Control"]
 anchor_right = 1.0
-margin_left = -300.0
-margin_right = 0.0
-visibility_mode = 1
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[connection signal="pressed" from="Control/Button" to="3dCC" method="_on_Button_pressed"]
+[node name="Panel" type="Panel" parent="Control/introcontrol"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 100, 100 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/introcontrol/Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.0
+margin_top = -100.0
+margin_right = 150.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 300, 100 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/introcontrol/Panel/VBoxContainer"]
+margin_right = 300.0
+margin_bottom = 96.0
+size_flags_horizontal = 3
+custom_fonts/normal_font = SubResource( 4 )
+bbcode_enabled = true
+bbcode_text = "[center]Esteu a punt de entrar a
+[color=#ffa500]BOCANORD[/color]
+"
+text = "Esteu a punt de entrar a
+BOCANORD
+"
+fit_content_height = true
+
+[node name="Button" type="Button" parent="Control/introcontrol/Panel/VBoxContainer"]
+margin_top = 100.0
+margin_right = 300.0
+margin_bottom = 200.0
+rect_pivot_offset = Vector2( -186.595, 167.206 )
+size_flags_vertical = 3
+text = "Entra"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="Control/Button2" to="3dCC" method="_on_respawn_pressed"]
+[connection signal="pressed" from="Control/Button" to="." method="_on_mousebutton_pressed"]
+[connection signal="pressed" from="Control/introcontrol/Panel/VBoxContainer/Button" to="." method="_on_Button_pressed"]
+
+[editable path="Control/JoystickL"]
